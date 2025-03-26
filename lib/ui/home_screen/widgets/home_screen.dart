@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../ui/home_screen/view_models/home_view_model.dart';
-import '../../../domain/models/voice_memo.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -15,6 +14,11 @@ class HomeScreen extends ConsumerWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: const Text('Voice Memos'),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          onPressed: () => context.go('/settings'),
+          child: const Icon(CupertinoIcons.settings),
+        ),
       ),
       child: SafeArea(
         child: Column(

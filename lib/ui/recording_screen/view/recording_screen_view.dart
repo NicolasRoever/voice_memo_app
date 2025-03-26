@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../domain/models/voice_memo.dart';
 import '../view_model/recording_view_model.dart';
 
 class RecorderScreen extends ConsumerWidget {
