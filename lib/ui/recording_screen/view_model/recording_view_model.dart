@@ -1,46 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data/services/audio_recorder_service.dart';
-import '../../../data/repositories/voice_memo_repository.dart';
+import '../../../data/repositories/audio_recorder_repository.dart';
 import '../../../domain/models/voice_memo.dart';
 
-class RecordingViewModel extends Notifier<bool> {
-  late final AudioRecorderService _recorderService;
-  late final VoiceMemoRepository _repository;
-  late DateTime _startTime;
+class RecorderViewModel extends StateNotifier<AsyncValue<VoiceMemo?>> {
+  final AudioRecorderRepository _repo;
 
-  @override
-  bool build() {
-    _recorderService = AudioRecorderService();
-    _repository = VoiceMemoRepository();
-    return false;
+  RecorderViewModel(this._repo) : super(const AsyncData(null));
+
+  bool _isRecording = false;
+  bool get isRecording => _isRecording;
+
+  Future<void> startRecording() async {
+    _isRecording = true;
+    final memo = await _repo.start();
+    state = AsyncData(memo);
   }
 
-  Future<void> start() async {
-    _startTime = DateTime.now();
-    final filename = '${_startTime.millisecondsSinceEpoch}.m4a';
-    await _recorderService.startRecording(filename);
-    state = true;
-  }
-
-  Future<void> stop() async {
-    final path = await _recorderService.stopRecording();
-    final endTime = DateTime.now();
-
-    if (path != null) {
-      await _repository.insertVoiceMemo(
-        VoiceMemo(
-          id: _startTime.millisecondsSinceEpoch,
-          filePath: path,
-          createdAt: _startTime,
-          duration: endTime.difference(_startTime),
-        ),
-      );
-    }
-
-    state = false;
+  Future<void> stopRecording() async {
+    _isRecording = false;
+    state = const AsyncLoading();
+    final savedMemo = await _repo.stop();
+    state = AsyncData(savedMemo);
   }
 }
 
-// Inlined provider
-final recordingViewModelProvider = NotifierProvider<RecordingViewModel, bool>(() => RecordingViewModel());
-
+final recorderViewModelProvider =
+    StateNotifierProvider<RecorderViewModel, AsyncValue<VoiceMemo?>>((ref) {
+  final repo = ref.watch(audioRecorderRepositoryProvider);
+  return RecorderViewModel(repo);
+});

@@ -1,17 +1,12 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import '../../domain/models/voice_memo.dart';
 
-class LocalDatabaseService {
-  static const _dbName = 'voice_memos.db';
-  static const _dbVersion = 1;
+class VoiceMemoDatabase {
+  static final VoiceMemoDatabase _instance = VoiceMemoDatabase._internal();
+  factory VoiceMemoDatabase() => _instance;
 
-  static const tableVoiceMemos = 'voice_memos';
-
-  static final LocalDatabaseService _instance = LocalDatabaseService._internal();
-  factory LocalDatabaseService() => _instance;
-
-  LocalDatabaseService._internal();
+  VoiceMemoDatabase._internal();
 
   Database? _db;
 
@@ -22,24 +17,30 @@ class LocalDatabaseService {
   }
 
   Future<Database> _initDB() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, _dbName);
-
+    final path = join(await getDatabasesPath(), 'voice_memos.db');
     return await openDatabase(
       path,
-      version: _dbVersion,
-      onCreate: _onCreate,
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE voice_memos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            path TEXT NOT NULL,
+            createdAt TEXT NOT NULL
+          )
+        ''');
+      },
     );
   }
 
-  Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE $tableVoiceMemos (
-        id INTEGER PRIMARY KEY,
-        filePath TEXT NOT NULL,
-        createdAt TEXT NOT NULL,
-        duration INTEGER NOT NULL
-      )
-    ''');
+  Future<int> insertMemo(VoiceMemo memo) async {
+    final db = await database;
+    return await db.insert('voice_memos', memo.toMap());
+  }
+
+  Future<List<VoiceMemo>> fetchAllMemos() async {
+    final db = await database;
+    final maps = await db.query('voice_memos', orderBy: 'createdAt DESC');
+    return maps.map((map) => VoiceMemo.fromMap(map)).toList();
   }
 }

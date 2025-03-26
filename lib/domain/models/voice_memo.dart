@@ -1,27 +1,27 @@
 class VoiceMemo {
-  final int id; // Unix timestamp
-  final String filePath;
+  final int? id;
+  final String path;
   final DateTime createdAt;
-  final Duration duration;
 
   VoiceMemo({
-    required this.id,
-    required this.filePath,
+    this.id,
+    required this.path,
     required this.createdAt,
-    required this.duration,
   });
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'filePath': filePath,
-        'createdAt': createdAt.toIso8601String(),
-        'duration': duration.inMilliseconds,
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'path': path,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 
-  factory VoiceMemo.fromMap(Map<String, dynamic> map) => VoiceMemo(
-        id: map['id'],
-        filePath: map['filePath'],
-        createdAt: DateTime.parse(map['createdAt']),
-        duration: Duration(milliseconds: map['duration']),
-      );
+  factory VoiceMemo.fromMap(Map<String, dynamic> map) {
+    return VoiceMemo(
+      id: map['id'],
+      path: map['path'],
+      createdAt: DateTime.parse(map['createdAt']),
+    );
+  }
 }

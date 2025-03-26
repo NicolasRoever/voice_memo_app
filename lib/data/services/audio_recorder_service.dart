@@ -1,31 +1,33 @@
 import 'package:record/record.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'dart:io';
 
 class AudioRecorderService {
-  static final AudioRecorderService _instance = AudioRecorderService._internal();
-  late final AudioRecorder _recorder;
+  final AudioRecorder _recorder;
 
-  factory AudioRecorderService() {
-    return _instance;
-  }
+  AudioRecorderService([AudioRecorder? recorder])
+      : _recorder = recorder ?? AudioRecorder();
 
-  AudioRecorderService._internal() {
-    _recorder = AudioRecorder();
-  }
+  Future<void> startRecording({required String fullPath}) async {
+    if (Platform.isIOS && !await _recorder.hasPermission()) {
+      final isSimulator = !Platform.isMacOS &&
+          !Platform.isAndroid &&
+          !Platform.isWindows &&
+          !Platform.isLinux;
+      if (isSimulator) {
+        throw Exception('Recording is not supported on iOS Simulator');
+      }
+    }
 
-  Future<void> startRecording(String fileName) async {
     if (await _recorder.hasPermission()) {
-      final dir = await getApplicationDocumentsDirectory();
-      final path = join(dir.path, fileName);
-
       await _recorder.start(
         RecordConfig(
           encoder: AudioEncoder.aacLc,
           bitRate: 128000,
           sampleRate: 44100,
         ),
-        path: path,
+        path: fullPath,
       );
     } else {
       throw Exception('Microphone permission not granted');
@@ -41,3 +43,4 @@ class AudioRecorderService {
 
   Future<bool> isRecording() async => await _recorder.isRecording();
 }
+

@@ -1,22 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data/repositories/voice_memo_repository.dart';
+import '../../../data/repositories/audio_recorder_repository.dart';
 import '../../../domain/models/voice_memo.dart';
 
-class HomeViewModel extends StateNotifier<List<VoiceMemo>> {
-  final VoiceMemoRepository _repository;
+class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
+  final AudioRecorderRepository _repository;
 
-  HomeViewModel(this._repository) : super([]) {
-    loadMemos();
-  }
+  HomeViewModel(this._repository) : super(const AsyncData([]));
 
   Future<void> loadMemos() async {
-    final memos = await _repository.fetchAllVoiceMemos();
-    state = memos;
+    state = const AsyncLoading();
+    try {
+      final memos = await _repository.fetchAll();
+      state = AsyncData(memos);
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+    }
   }
 }
 
-// Inlined provider
 final homeViewModelProvider =
-    StateNotifierProvider<HomeViewModel, List<VoiceMemo>>(
-  (ref) => HomeViewModel(VoiceMemoRepository()),
+    StateNotifierProvider<HomeViewModel, AsyncValue<List<VoiceMemo>>>(
+  (ref) => HomeViewModel(ref.watch(audioRecorderRepositoryProvider)),
 );

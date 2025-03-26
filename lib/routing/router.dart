@@ -5,6 +5,7 @@ import 'dart:async';
 import '../ui/home_screen/widgets/home_screen.dart';
 import '../ui/onboarding_screen/widgets/user_auth_view.dart';
 import '../ui/onboarding_screen/view_models/user_auth_view_model.dart';
+import '../ui/recording_screen/view/recording_screen_view.dart';
 
 
 
@@ -50,6 +51,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/record',
+        builder: (context, state) => const RecorderScreen(),
       ),
     ],
   );
