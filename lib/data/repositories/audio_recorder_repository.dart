@@ -5,10 +5,14 @@ import '../../domain/models/voice_memo.dart';
 import '../../data/services/audio_recorder_service.dart';
 import '../../data/services/local_database_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AudioRecorderRepository {
   final AudioRecorderService _service;
   final VoiceMemoDatabase _db;
+  final AudioPlayer _player = AudioPlayer();
+
+  String? _currentlyPlaying;
 
   AudioRecorderRepository(this._service, this._db);
 
@@ -36,6 +40,35 @@ class AudioRecorderRepository {
     print('⚠️ Recording stopped but no file returned.');
     return null;
   }
+
+  Future<void> togglePlayback(String path) async {
+    print('🎧 togglePlayback: $path');
+
+    if (_currentlyPlaying == path && _player.playing) {
+      print('⏹️ Stopping playback');
+      await _player.stop();
+      _currentlyPlaying = null;
+    } else {
+      print('▶️ Starting playback');
+      _currentlyPlaying = path;
+      await _player.setFilePath(path);
+      await _player.play();
+
+      // Optional: auto-reset when done
+      _player.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          _currentlyPlaying = null;
+        }
+      });
+    }
+
+    print('📍 currentlyPlaying: $_currentlyPlaying');
+  }
+
+  String? get currentlyPlaying => _currentlyPlaying;
+
+  void dispose() { _player.dispose(); }
+
 
   Future<List<VoiceMemo>> fetchAll() async {
     return await _db.fetchAllMemos();

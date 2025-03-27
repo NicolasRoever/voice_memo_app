@@ -44,26 +44,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             Expanded(
-              child: memosAsync.when(
-                data: (memos) => memos.isEmpty
-                    ? const Center(child: Text('No recordings yet.'))
-                    : ListView.builder(
-                        itemCount: memos.length,
-                        itemBuilder: (context, index) {
-                          final memo = memos[index];
-                          return CupertinoListTile(
-                            title: Text('Recording ${memo.id}'),
-                            trailing: const Icon(CupertinoIcons.play_arrow),
-                            onTap: () {
-                              // TODO: Playback feature
-                            },
-                          );
-                        },
+            child: memosAsync.when(
+              data: (memos) {
+                final currentlyPlaying = ref.watch(homeViewModelProvider.notifier).currentlyPlaying;
+
+                if (memos.isEmpty) {
+                  return const Center(child: Text('No recordings yet.'));
+                }
+
+                return ListView.builder(
+                  itemCount: memos.length,
+                  itemBuilder: (context, index) {
+                    final memo = memos[index];
+                    final isPlaying = memo.path == currentlyPlaying;
+
+                    return CupertinoListTile(
+                      title: Text('Recording ${memo.id}'),
+                      trailing: Icon(
+                        isPlaying
+                            ? CupertinoIcons.stop_fill
+                            : CupertinoIcons.play_arrow,
                       ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(child: Text('Error: $error')),
-              ),
+                      onTap: () async {
+                        print('🎧 Tapped memo: ${memo.path}');
+                        await ref
+                            .read(homeViewModelProvider.notifier)
+                            .togglePlayback(memo.path);
+                      },
+                    );
+                  },
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stack) => Center(child: Text('Error: $error')),
             ),
+          ),
           ],
         ),
       ),

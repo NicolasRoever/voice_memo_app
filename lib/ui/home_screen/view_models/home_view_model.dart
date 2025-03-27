@@ -5,7 +5,9 @@ import '../../../domain/models/voice_memo.dart';
 class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
   final AudioRecorderRepository _repository;
 
-  HomeViewModel(this._repository) : super(const AsyncData([]));
+  HomeViewModel(this._repository) : super(const AsyncData([])) {
+    loadMemos(); // Load on init
+  }
 
   Future<void> loadMemos() async {
     state = const AsyncLoading();
@@ -17,9 +19,16 @@ class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
       state = AsyncError(error, stackTrace);
     }
   }
+
+  Future<void> togglePlayback(String path) async {
+    await _repository.togglePlayback(path);
+  }
+
+  String? get currentlyPlaying => _repository.currentlyPlaying;
 }
 
 final homeViewModelProvider =
-    StateNotifierProvider<HomeViewModel, AsyncValue<List<VoiceMemo>>>(
-  (ref) => HomeViewModel(ref.watch(audioRecorderRepositoryProvider)),
-);
+    StateNotifierProvider<HomeViewModel, AsyncValue<List<VoiceMemo>>>((ref) {
+  final repo = ref.watch(audioRecorderRepositoryProvider);
+  return HomeViewModel(repo);
+});
