@@ -18,7 +18,6 @@ cd ..
 flutter run --verbose
 
 
-
 ```
 
 ## Getting Started

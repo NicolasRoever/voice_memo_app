@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voice_memo_app/data/services/shared_preferences_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserAuthViewModel extends StateNotifier<bool> {
   final SharedPreferencesService _prefs;

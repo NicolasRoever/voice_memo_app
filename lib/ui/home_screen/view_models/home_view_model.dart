@@ -11,6 +11,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
     state = const AsyncLoading();
     try {
       final memos = await _repository.fetchAll();
+      print('📥 Loaded ${memos.length} memos from DB');
       state = AsyncData(memos);
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);

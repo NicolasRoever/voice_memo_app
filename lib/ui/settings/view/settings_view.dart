@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../view_model/settings_view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -17,8 +18,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final name = ref.watch(settingsViewModelProvider);
 
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Settings'),
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Settings'),
+        leading: CupertinoNavigationBarBackButton(
+          onPressed: () => context.go('/'),
+        ),
       ),
       child: SafeArea(
         child: Padding(

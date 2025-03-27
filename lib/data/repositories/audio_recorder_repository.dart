@@ -30,8 +30,10 @@ class AudioRecorderRepository {
     if (filePath != null) {
       final memo = VoiceMemo(path: filePath, createdAt: DateTime.now());
       await _db.insertMemo(memo);
+      print('✅ Memo saved: $filePath');
       return memo;
     }
+    print('⚠️ Recording stopped but no file returned.');
     return null;
   }
 

@@ -4,11 +4,24 @@ import 'package:go_router/go_router.dart';
 import '../../../ui/home_screen/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(homeViewModelProvider.notifier).loadMemos();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final memosAsync = ref.watch(homeViewModelProvider);
 
     return CupertinoPageScaffold(
@@ -38,7 +51,7 @@ class HomeScreen extends ConsumerWidget {
                         itemCount: memos.length,
                         itemBuilder: (context, index) {
                           final memo = memos[index];
-                          return ListTile(
+                          return CupertinoListTile(
                             title: Text('Recording ${memo.id}'),
                             trailing: const Icon(CupertinoIcons.play_arrow),
                             onTap: () {
