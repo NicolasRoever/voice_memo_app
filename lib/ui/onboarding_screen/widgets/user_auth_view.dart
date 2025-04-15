@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voice_memo_app/ui/onboarding_screen/view_models/user_auth_view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -41,10 +42,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       await ref
                           .read(userViewModelProvider.notifier)
                           .logUserSession(name);
-
                       // Navigate to home or next screen
                       if (mounted) {
-                        Navigator.of(context).pushReplacementNamed('/home');
+                        context.go('/');
+
                       }
                     }
                   },
