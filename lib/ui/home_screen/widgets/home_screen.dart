@@ -28,11 +28,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: const Text('Voice Memos'),
-        trailing: CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => context.go('/settings'),
-          child: const Icon(CupertinoIcons.settings),
-        ),
       ),
       child: SafeArea(
         child: Column(

@@ -13,10 +13,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    print("👋 Onboarding screen shown");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Enter Study ID'),
+        middle: Text('Enter Name /Study ID'),
       ),
       child: SafeArea(
         child: Padding(
@@ -29,12 +35,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
               const SizedBox(height: 16),
               CupertinoButton.filled(
-                onPressed: () async {
-                  final name = _controller.text.trim();
-                  if (name.isNotEmpty) {
-                    await ref.read(userAuthProvider.notifier).register(name);
-                  }
-                },
+                  onPressed: () async {
+                    final name = _controller.text.trim();
+                    if (name.isNotEmpty) {
+                      await ref
+                          .read(userViewModelProvider.notifier)
+                          .logUserSession(name);
+
+                      // Navigate to home or next screen
+                      if (mounted) {
+                        Navigator.of(context).pushReplacementNamed('/home');
+                      }
+                    }
+                  },
                 child: const Text('Continue'),
               ),
             ],
