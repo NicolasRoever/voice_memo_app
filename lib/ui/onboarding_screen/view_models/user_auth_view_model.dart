@@ -33,7 +33,7 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
     final supabase = Supabase.instance.client;
 
     try {
-      await supabase.from('user_table').insert(user.toJson());      
+      await supabase.from('user_signup_table').insert(user.toJson());      
       state = const AsyncData(null);
     } catch (e, st) {
       state = AsyncError(e, st);
