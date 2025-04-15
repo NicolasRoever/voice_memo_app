@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +42,7 @@ class AudioRecorderRepository {
     return null;
   }
 
-  Future<void> togglePlayback(String path) async {
+  Future<void> togglePlayback(String path, VoidCallback onPlaybackComplete) async {
     print('🎧 togglePlayback: $path');
 
     if (_currentlyPlaying == path && _player.playing) {
@@ -58,6 +59,7 @@ class AudioRecorderRepository {
       _player.playerStateStream.listen((state) {
         if (state.processingState == ProcessingState.completed) {
           _currentlyPlaying = null;
+          onPlaybackComplete(); // Notify viewmodel
         }
       });
     }
