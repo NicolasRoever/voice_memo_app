@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routing/router.dart';
 import 'data/services/shared_preferences_service.dart';
 import 'ui/onboarding_screen/view_models/user_auth_view_model.dart';
+import 'ui/core/theme/app_theme.dart';
 
 
 void main() async {
@@ -44,9 +45,7 @@ class MyApp extends ConsumerWidget {
     return CupertinoApp.router(
       routerConfig: router,
       title: 'Voice Memo',
-      theme: const CupertinoThemeData(
-        primaryColor: Color.fromARGB(255, 0, 55, 113),
-      ),
+      theme: AppTheme.light,
     );
   }
 }
