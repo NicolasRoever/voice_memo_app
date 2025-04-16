@@ -25,14 +25,28 @@ class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
   }
 
   Future<void> togglePlayback(String path) async {
-    await _repository.togglePlayback(path, () {
-      _ref.read(currentlyPlayingProvider.notifier).state = null;
-    });
+  final current = _ref.read(currentlyPlayingProvider);
 
-
-    final current = _repository.currentlyPlaying;
-    _ref.read(currentlyPlayingProvider.notifier).state = current;
+  if (current == path) {
+    // 🔁 Stop current
+    await _repository.stopPlayback();
+    _ref.read(currentlyPlayingProvider.notifier).state = null;
+    return;
   }
+
+  // 🛑 Stop any other playback first
+  if (current != null) {
+    await _repository.stopPlayback();
+  }
+
+  // ✅ Update state BEFORE playing to reflect changes in UI immediately
+  _ref.read(currentlyPlayingProvider.notifier).state = path;
+
+  await _repository.togglePlayback(path, () {
+    // Reset after completion
+    _ref.read(currentlyPlayingProvider.notifier).state = null;
+  });
+}
 
 }
 

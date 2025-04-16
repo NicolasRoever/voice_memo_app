@@ -124,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       if (memos.isEmpty) {
                         return const Center(
                           child: Text(
-                            'No recordings yet.',
+                            'No gratitude entries yet. 😢',
                             style: TextStyle(fontSize: 16),
                           ),
                         );
@@ -165,28 +165,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   final memo = memos[index];
                                   final isPlaying = memo.path == currentlyPlaying;
 
-                                  return Container(
-                                    margin: const EdgeInsets.only(bottom: 12),
-                                    decoration: BoxDecoration(
-                                      color: CupertinoColors.white,
-                                      borderRadius: BorderRadius.circular(8),
+                                  return GestureDetector(
+                                onTap: () async {
+                                  await ref.read(homeViewModelProvider.notifier).togglePlayback(memo.path);
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: isPlaying
+                                        ? CupertinoColors.systemGrey4.withOpacity(0.3)
+                                        : CupertinoColors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: isPlaying
+                                          ? Theme.of(context).colorScheme.primary
+                                          : CupertinoColors.systemGrey5,
+                                      width: 1,
                                     ),
-                                    child: CupertinoListTile(
-                                      title: Text('Gratitude Entry ${memo.id}'),
-                                      subtitle: Text('${DateFormat.yMMMMd().format(memo.createdAt.toLocal())} ${memo.createdAt.toLocal().hour}:${memo.createdAt.toLocal().minute}'),
-                                      trailing: Icon(
-                                        isPlaying
-                                            ? CupertinoIcons.stop_fill
-                                            : CupertinoIcons.play_arrow,
-                                        color: Theme.of(context).primaryColor,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // Left: Texts
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Gratitude Entry ${memo.id}',
+                                            style: AppTypography.heading.copyWith(
+                                              fontSize: 16,
+                                              color: isPlaying
+                                                  ? Theme.of(context).colorScheme.primary
+                                                  : CupertinoColors.label,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            '${DateFormat.yMMMMd().format(memo.createdAt.toLocal())} ${memo.createdAt.toLocal().hour}:${memo.createdAt.toLocal().minute.toString().padLeft(2, '0')}',
+                                            style: AppTypography.subtitle,
+                                          ),
+                                        ],
                                       ),
-                                      onTap: () async {
-                                        await ref
-                                            .read(homeViewModelProvider.notifier)
-                                            .togglePlayback(memo.path);
-                                      },
-                                    ),
-                                  );
+
+                                      // Right: Icon
+                                      Icon(
+                                        isPlaying ? CupertinoIcons.stop_fill : CupertinoIcons.play_arrow,
+                                        color: isPlaying
+                                            ? AppColors.accent
+                                            : Theme.of(context).colorScheme.primary,
+                                        size: 24,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
                                 },
                               ),
                             ),

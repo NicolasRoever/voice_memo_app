@@ -79,20 +79,42 @@ class AudioRecorderRepository {
   }
 
   Future<void> togglePlayback(String path, VoidCallback onPlaybackComplete) async {
-    if (_currentlyPlaying == path && _player.playing) {
+    try {
+      if (_currentlyPlaying == path && _player.playing) {
+        await _player.stop();
+        _currentlyPlaying = null;
+      } else {
+        _currentlyPlaying = path;
+        final file = File(path);
+        if (!await file.exists()) {
+          print('❌ Audio file not found at path: $path');
+          return;
+        }
+        print('🎵 Attempting to play audio from: $path');
+        await _player.setFilePath(path);
+        await _player.play();
+        print('✅ Audio playback started');
+
+        _player.playerStateStream.listen((state) {
+          print('🎵 Player state: ${state.processingState}');
+          if (state.processingState == ProcessingState.completed) {
+            _currentlyPlaying = null;
+            onPlaybackComplete();
+          }
+        });
+      }
+    } catch (e) {
+      print('❌ Error playing audio: $e');
+      _currentlyPlaying = null;
+    }
+  }
+
+  Future<void> stopPlayback() async {
+    try {
       await _player.stop();
       _currentlyPlaying = null;
-    } else {
-      _currentlyPlaying = path;
-      await _player.setFilePath(path);
-      await _player.play();
-
-      _player.playerStateStream.listen((state) {
-        if (state.processingState == ProcessingState.completed) {
-          _currentlyPlaying = null;
-          onPlaybackComplete();
-        }
-      });
+    } catch (e) {
+      print('❌ Error stopping playback: $e');
     }
   }
 
