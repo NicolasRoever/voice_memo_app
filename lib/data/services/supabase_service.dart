@@ -27,14 +27,10 @@ class SupabaseService {
     required int timestamp,
     required String fileUrl,
   }) async {
-    final response = await _client.from('voice_memos').insert({
+    await _client.from('voice_memos').insert({
       'user_id': userId,
       'created_at': timestamp,
       'file_path': fileUrl,
     });
-
-    if (response.error != null) {
-      throw Exception('Failed to insert metadata: ${response.error!.message}');
-    }
   }
 }

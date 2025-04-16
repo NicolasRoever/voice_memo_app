@@ -59,8 +59,7 @@ class AudioRecorderRepository {
         final timestamp = DateTime.now().millisecondsSinceEpoch;
 
         final fileUrl = await _supabaseService.uploadRecording(userId, file);
-        print('🚀 Uploaded to Supabase: $fileUrl');
-        
+
         await _supabaseService.insertVoiceMemo(
           userId: userId,
           timestamp: timestamp,

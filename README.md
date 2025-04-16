@@ -20,6 +20,10 @@ flutter run --verbose
 
 ```
 
+## Notes for Developer
+
+- Use Unix Timestamp for the timestamp of the voice memo inserted
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
