@@ -17,7 +17,7 @@ class RecorderScreen extends ConsumerWidget {
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.home),
-          onPressed: () => context.go('/'),
+          onPressed: () => context.pop(),
         ),
       ),
       child: SafeArea(

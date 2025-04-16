@@ -26,16 +26,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final currentlyPlaying = ref.watch(currentlyPlayingProvider);
 
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: const Text('Voice Memos'),
-      ),
+        navigationBar: CupertinoNavigationBar(
+          middle: const Text('Voice Memos'),
+          trailing: CupertinoButton(
+            onPressed: () => context.push('/settings'),
+            child: const Icon(CupertinoIcons.settings),
+          ),
+        ),
       child: SafeArea(
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
               child: CupertinoButton.filled(
-                onPressed: () => context.go('/record'),
+                onPressed: () => context.push('/record'),
                 child: const Text('Record Now'),
               ),
             ),
