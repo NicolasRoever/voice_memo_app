@@ -1,8 +1,9 @@
 # voice_memo_app
 
+
+## How to run the app locally
 Here is how to run the app from the terminal: 
 
-This is the code for the CalmAddict app. 
 
 ```bash
 
@@ -19,6 +20,19 @@ flutter run --verbose
 
 
 ```
+
+## How to push the app to testflight
+
+```bash
+flutter build ipa
+
+
+```
+
+Then Drag and drop the build/ios/ipa/*.ipa app bundle into the Transporter app on your mac.
+
+
+
 
 ## Notes for Developer
 
