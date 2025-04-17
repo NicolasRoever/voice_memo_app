@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../domain/models/user_model.dart';
 import '../../../data/services/shared_preferences_service.dart';
+import '../../../data/repositories/user_repository.dart';
 
 class UserViewModel extends StateNotifier<AsyncValue<void>> {
   final Ref ref;
@@ -13,12 +13,12 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
     state = const AsyncLoading();
 
     final prefsService = ref.read(sharedPreferencesProvider);
+    final userRepo = ref.read(userRepositoryProvider);
 
     String? id = prefsService.userId;
     String? name = prefsService.userName;
 
     if (id == null || name == null) {
-      // First launch
       id = const Uuid().v4();
       name = nameInput;
       await prefsService.saveUserCredentials(id, name!);
@@ -30,10 +30,8 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
       openedAt: DateTime.now(),
     );
 
-    final supabase = Supabase.instance.client;
-
     try {
-      await supabase.from('user_signup_table').insert(user.toJson());      
+      await userRepo.saveUserToDatabase(user);
       state = const AsyncData(null);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -41,6 +39,6 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
   }
 }
 
-final userViewModelProvider = StateNotifierProvider<UserViewModel, AsyncValue<void>>((ref) {
-  return UserViewModel(ref);
-});
+final userViewModelProvider = StateNotifierProvider<UserViewModel, AsyncValue<void>>(
+  (ref) => UserViewModel(ref),
+);

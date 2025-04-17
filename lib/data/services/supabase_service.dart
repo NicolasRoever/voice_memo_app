@@ -2,6 +2,9 @@
 
 import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../domain/models/user_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class SupabaseService {
   final SupabaseClient _client = Supabase.instance.client;
@@ -33,4 +36,13 @@ class SupabaseService {
       'file_path': fileUrl,
     });
   }
+
+  Future<void> insertUser(AppUser user) async {
+    await _client.from('user_signup_table').insert(user.toJson());
+  }
 }
+
+
+final supabaseServiceProvider = Provider<SupabaseService>((ref) {
+  return SupabaseService();
+});

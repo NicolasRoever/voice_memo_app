@@ -20,7 +20,7 @@ class SettingsScreen extends ConsumerWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Image.asset(
-                'assets/images/background_image.jpg',
+                'assets/images/background_image.png',
                 width: constraints.maxWidth,
                 height: constraints.maxHeight,
                 fit: BoxFit.cover,
@@ -67,10 +67,6 @@ class SettingsScreen extends ConsumerWidget {
                         backgroundColor: AppColors.background_cards,
                         header: const Text('App Info'),
                         children: const [
-                          CupertinoListTile(
-                            title: Text('Background Image Source'),
-                            additionalInfo: Text('Freepik'),
-                          ),
                           CupertinoListTile(
                             title: Text('Developer'),
                             additionalInfo: Text('Nicolas Roever'),

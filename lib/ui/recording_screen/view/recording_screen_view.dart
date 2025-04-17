@@ -20,7 +20,7 @@ class RecorderScreen extends ConsumerWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Image.asset(
-                'assets/images/background_image.jpg',
+                'assets/images/background_image.png',
                 width: constraints.maxWidth,
                 height: constraints.maxHeight,
                 fit: BoxFit.cover,
@@ -50,12 +50,18 @@ class RecorderScreen extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Prompt Card
-                     Text(
-                        'What are three things you are grateful for today?',
-                        style: AppTypography.heading,
-                        textAlign: TextAlign.center,
+                     Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.background_cards,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          'What are three things you are grateful for today?',
+                          style: AppTypography.heading,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    
 
                     const SizedBox(height: 32),
 
@@ -64,7 +70,7 @@ class RecorderScreen extends ConsumerWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
                       decoration: BoxDecoration(
-                        color: CupertinoColors.systemGrey.withOpacity(0.01),
+                        color:  AppColors.background_cards,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(

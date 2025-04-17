@@ -24,6 +24,11 @@ flutter run --verbose
 
 - Use Unix Timestamp for the timestamp of the voice memo inserted
 
+## Colors
+- Primary: Color(0xFF2A454E);
+- Accent: Color(0xFFffd85f);
+- #ffd95f
+
 
 ## Getting Started
 

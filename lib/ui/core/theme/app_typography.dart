@@ -11,7 +11,7 @@ class AppTypography {
 
   static final TextStyle heading = GoogleFonts.notoSerif(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.primary,
   );
 

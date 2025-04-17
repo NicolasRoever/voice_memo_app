@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:voice_memo_app/ui/onboarding_screen/view_models/user_auth_view_model.dart';
+import 'package:joymemos/ui/onboarding_screen/view_models/user_auth_view_model.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
@@ -24,7 +24,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Image.asset(
-                'assets/images/background_image.jpg',
+                'assets/images/background_image.png',
                 width: constraints.maxWidth,
                 height: constraints.maxHeight,
                 fit: BoxFit.cover,
@@ -70,7 +70,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
-                            color: CupertinoColors.systemGrey.withOpacity(0.2),
+                            color: CupertinoColors.systemGrey.withOpacity(0.01),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),

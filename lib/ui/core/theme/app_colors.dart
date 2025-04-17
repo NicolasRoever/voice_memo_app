@@ -5,5 +5,5 @@ class AppColors {
   static const background = CupertinoColors.systemGrey6;
   static const text = CupertinoColors.label;
   static const accent = Color(0xFFffd85f);
-  static Color get background_cards => CupertinoColors.systemGrey.withOpacity(0.1);
+  static Color get background_cards =>  CupertinoColors.white.withAlpha(100);
 }
