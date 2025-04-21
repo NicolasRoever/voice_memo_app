@@ -15,6 +15,12 @@ class AppTypography {
     color: AppColors.primary,
   );
 
+  static final TextStyle buttonText = GoogleFonts.notoSerif(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: CupertinoColors.white,
+  );
+
   static const TextStyle subtitle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:joymemos/ui/onboarding_screen/view_models/user_auth_view_model.dart';
 import '../../core/theme/app_typography.dart';
-
+import '../../core/theme/app_colors.dart';
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -83,7 +83,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                           ),
                           const SizedBox(height: 24),
-                          CupertinoButton.filled(
+                          CupertinoButton(
+                            color: AppColors.primary,
                             onPressed: () async {
                               final name = _controller.text.trim();
                               if (name.isNotEmpty) {
@@ -92,9 +93,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               }
                             },
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                            child: const Text(
+                            child: Text(
                               'Start Being Grateful',
-                              style: TextStyle(fontSize: 18),
+                              style: AppTypography.buttonText,
                             ),
                           ),
                         ],

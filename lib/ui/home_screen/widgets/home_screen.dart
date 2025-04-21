@@ -59,6 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   padding: const EdgeInsets.only(left: 8, top: 8),
                   child: Row(
                     children: [
+                      const Spacer(),
                       CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () => context.push('/settings'),
@@ -113,12 +114,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 12),
                         Center(
-                          child: CupertinoButton.filled(
+                          child: CupertinoButton(
+                            color: AppColors.primary,
                             onPressed: () async {
                               await context.push('/record');
                               ref.read(homeViewModelProvider.notifier).loadMemos();
                             },
-                            child: const Text('Record Now'),
+                            child: Text('Record Now', style: AppTypography.buttonText),
                           ),
                         ),
                       ],
@@ -135,8 +137,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         if (memos.isEmpty) {
                           return const Center(
                             child: Text(
-                              'No gratitude entries yet. 😢',
-                              style: TextStyle(fontSize: 16),
+                              'No JoyMemos yet. 😢',
+                              style: AppTypography.subtitle,
                             ),
                           );
                         }

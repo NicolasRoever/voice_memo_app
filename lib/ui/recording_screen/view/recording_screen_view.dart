@@ -39,7 +39,7 @@ class RecorderScreen extends ConsumerWidget {
             leading: CupertinoButton(
               padding: const EdgeInsets.only(left: 8),
               onPressed: () => context.pop(),
-              child: const Icon(CupertinoIcons.home),
+              child: const Icon(CupertinoIcons.home, color: AppColors.primary),
             ),
           ),
           child: SafeArea(
@@ -108,7 +108,7 @@ class RecorderScreen extends ConsumerWidget {
                                       : memo != null
                                           ? 'Recording saved!'
                                           : 'Ready to record',
-                                  style: const TextStyle(fontSize: 16),
+                                  style: AppTypography.subtitle,
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -117,7 +117,8 @@ class RecorderScreen extends ConsumerWidget {
                             error: (e, _) => Text('Error: $e'),
                           ),
                           const SizedBox(height: 32),
-                          CupertinoButton.filled(
+                          CupertinoButton(
+                            color: AppColors.primary,
                             onPressed: () async {
                               if (viewModel.isRecording) {
                                 await viewModel.stopRecording();
@@ -128,7 +129,7 @@ class RecorderScreen extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                             child: Text(
                               viewModel.isRecording ? 'Stop' : 'Record Now',
-                              style: const TextStyle(fontSize: 18),
+                              style: AppTypography.buttonText,
                             ),
                           ),
                         ],
