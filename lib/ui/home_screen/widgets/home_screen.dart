@@ -71,11 +71,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 // Greeting
                 prefsAsync.when(
                   data: (prefs) {
-                    final userName = prefs.userName ?? 'Guest';
+                    final userName = prefs.userName;
+                    final viewModel = ref.watch(homeViewModelProvider.notifier);
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       child: Text(
-                        'Hi, $userName 👋',
+                        viewModel.greeting(userName),
                         style: AppTypography.mainHeading,
                       ),
                     );

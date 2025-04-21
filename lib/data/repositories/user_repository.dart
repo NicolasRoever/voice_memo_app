@@ -1,7 +1,6 @@
 import '../../../domain/models/user_model.dart';
 import '../services/supabase_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserRepository {
   final SupabaseService _supabaseService;

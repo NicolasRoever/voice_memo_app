@@ -36,7 +36,9 @@ Then Drag and drop the build/ios/ipa/*.ipa app bundle into the Transporter app o
 
 ## Notes for Developer
 
-- Use Unix Timestamp for the timestamp of the voice memo inserted
+- Setting Icon to the right on home screen
+- Name change if it includes number (prolific ID)
+- Font type of button change
 
 ## Colors
 - Primary: Color(0xFF2A454E);

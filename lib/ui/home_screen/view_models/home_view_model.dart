@@ -6,11 +6,21 @@ final currentlyPlayingProvider = StateProvider<String?>((ref) => null);
 
 
 class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
+
   final AudioRecorderRepository _repository;
   final Ref _ref;
 
   HomeViewModel(this._repository, this._ref) : super(const AsyncData([])) {
     loadMemos(); // Load on init
+  }
+
+  String greeting(String? userName) {
+    final name = (userName?.isNotEmpty == true) ? userName! : 'Guest';
+    // RegExp(r'\d') matches any numeric character
+    if (RegExp(r'\d').hasMatch(name)) {
+      return 'Hi, You 👋';
+    }
+    return 'Hi, $name 👋';
   }
 
   Future<void> loadMemos() async {

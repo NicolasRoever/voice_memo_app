@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routing/router.dart';
 import 'data/services/shared_preferences_service.dart';
-import 'ui/onboarding_screen/view_models/user_auth_view_model.dart';
 import 'ui/core/theme/app_theme.dart';
 
 
