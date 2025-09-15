@@ -32,7 +32,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             },
           ),
         ),
-
         CupertinoPageScaffold(
           backgroundColor: CupertinoColors.transparent,
           navigationBar: CupertinoNavigationBar(
@@ -57,9 +56,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       style: AppTypography.subtitle,
                       textAlign: TextAlign.center,
                     ),
-
                     const SizedBox(height: 32),
-
                     // Input + Button Card
                     Container(
                       width: double.infinity,
@@ -100,7 +97,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ),
                         ],
                       ),
-                      // Info Box
+                    ),
+                    // Info Box
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
