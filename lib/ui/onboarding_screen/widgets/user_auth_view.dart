@@ -48,12 +48,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   children: [
                     // Heading
                     Text(
-                      'What\'s your name?',
+                      'Welcome 😊! ',
                       style: AppTypography.heading,
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'We want to know how to call you 😊',
+                      'Please enter your ProlificID here: ',
                       style: AppTypography.subtitle,
                       textAlign: TextAlign.center,
                     ),
@@ -79,7 +79,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         children: [
                           CupertinoTextField(
                             controller: _controller,
-                            placeholder: 'Your Name',
+                            placeholder: 'Prolific ID',
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                           ),
                           const SizedBox(height: 24),
@@ -99,6 +99,23 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      // Info Box
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.systemGrey6.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
+                      ),
+                      child: Text(
+                        'Based on your input, you’ll receive personalized, AI-generated tips for habits that can improve your mood, sent via Prolific.',
+                        style: AppTypography.subtitle.copyWith(
+                          color: CupertinoColors.black.withOpacity(0.8),
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],
