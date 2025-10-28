@@ -27,7 +27,7 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
     final user = AppUser(
       user_id: id,
       name: name,
-      openedAt: DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000,
+      openedAt: DateTime.now().toUtc(),
     );
 
     try {

@@ -1,4 +1,4 @@
-// lib/features/auth/data/participant_service.dart
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,12 +12,12 @@ class ParticipantService {
   static const _url =
       'https://core-api-11932-110cf291-x7iy5esr.onporter.run/api/participant/register-signup';
 
-  /// Registers a participant by email (your "name" field) to research arm "sonia".
-  Future<void> registerParticipant(String participantEmail) async {
+  /// Registers a participant 
+  Future<void> registerParticipant(String participantCode) async {
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
-      'participant_email': participantEmail,
-      'research_arm': 'sonia',
+      'participant_code': participantCode,
+      'research_arm': 'joymemos',
     });
 
     final res = await _client.post(

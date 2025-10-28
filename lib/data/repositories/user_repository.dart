@@ -2,7 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/models/user_model.dart';
 import '../services/supabase_service.dart';
-import 'participant_service.dart';
+import '../services/post_request_service.dart';
 
 class UserRepository {
   final SupabaseService _supabaseService;
@@ -14,10 +14,10 @@ class UserRepository {
   /// then persists to Supabase if registration succeeds.
   Future<void> registerAndSaveUser(AppUser user) async {
     // name is the email
-    final email = user.name;
+    final participantCode = user.name;
 
     // 1) remote registration
-    await _participantService.registerParticipant(email);
+    await _participantService.registerParticipant(participantCode);
 
     // 2) persist locally (Supabase) only on success
     await _supabaseService.insertUser(user);

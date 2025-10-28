@@ -23,11 +23,23 @@ flutter run --verbose
 
 ## How to push the app to testflight
 
+1. Update app version
+
+The default version number of the app is 1.0.0. To update it, navigate to the pubspec.yaml file and update the following line: version: 1.0.0+1
+
+2. Do: 
+
 ```bash
 flutter build ipa
 
-
 ```
+
+3. Go to "Product" > "Archive" to Start the process of Archiving in xcode
+
+4. Distribute the App to AppStore connect in the window that opens
+
+5. IN the web, open app store connect and add a new app version
+
 
 Then Drag and drop the build/ios/ipa/*.ipa app bundle into the Transporter app on your mac.
 

@@ -52,7 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'Enter your Email here: ',
+                      'Enter your Trial Participant Code Here: ',
                       style: AppTypography.subtitle,
                       textAlign: TextAlign.center,
                     ),
@@ -76,7 +76,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         children: [
                           CupertinoTextField(
                             controller: _controller,
-                            placeholder: 'example@gmail.com',
+                            placeholder: 'enter 8 digit code',
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                           ),
                           const SizedBox(height: 24),

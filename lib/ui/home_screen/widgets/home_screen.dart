@@ -212,7 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                     fontSize: 16,
                                                     color: isPlaying
                                                         ? Theme.of(context).colorScheme.primary
-                                                        : CupertinoColors.label,
+                                                        : CupertinoColors.systemGrey5,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 4),
