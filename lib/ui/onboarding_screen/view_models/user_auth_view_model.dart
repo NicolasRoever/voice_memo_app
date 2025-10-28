@@ -27,11 +27,11 @@ class UserViewModel extends StateNotifier<AsyncValue<void>> {
     final user = AppUser(
       user_id: id,
       name: name,
-      openedAt: DateTime.now(),
+      openedAt: DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000,
     );
 
     try {
-      await userRepo.saveUserToDatabase(user);
+      await userRepo.registerAndSaveUser(user);
       state = const AsyncData(null);
     } catch (e, st) {
       state = AsyncError(e, st);

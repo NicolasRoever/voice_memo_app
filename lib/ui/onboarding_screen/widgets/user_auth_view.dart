@@ -52,7 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'Please enter your ProlificID here: ',
+                      'Enter your Email here: ',
                       style: AppTypography.subtitle,
                       textAlign: TextAlign.center,
                     ),
@@ -76,7 +76,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         children: [
                           CupertinoTextField(
                             controller: _controller,
-                            placeholder: 'Prolific ID',
+                            placeholder: 'example@gmail.com',
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                           ),
                           const SizedBox(height: 24),
@@ -108,7 +108,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
                       ),
                       child: Text(
-                        'Based on your input, you’ll receive personalized, AI-generated tips for habits that can improve your mood, sent via Prolific.',
+                        'Based on your input, you’ll receive personalized, AI-generated tips for habits that can improve your mood, sent via email.',
                         style: AppTypography.subtitle.copyWith(
                           color: CupertinoColors.black.withOpacity(0.8),
                           fontSize: 14,
