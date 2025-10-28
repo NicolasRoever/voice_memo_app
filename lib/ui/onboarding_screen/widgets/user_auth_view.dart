@@ -76,7 +76,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         children: [
                           CupertinoTextField(
                             controller: _controller,
-                            placeholder: 'enter 8 digit code',
+                            placeholder: 'enter code',
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                           ),
                           const SizedBox(height: 24),

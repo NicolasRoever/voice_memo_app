@@ -17,7 +17,7 @@ class HomeViewModel extends StateNotifier<AsyncValue<List<VoiceMemo>>> {
   String greeting(String? userName) {
     final name = (userName?.isNotEmpty == true) ? userName! : 'Guest';
     // Match any numeric character or '@'
-    if (RegExp(r'[\d@]').hasMatch(name)) {
+    if (RegExp(r'[\d@\-]').hasMatch(name)) {
       return 'Hi, You 👋';
     }
     return 'Hi, $name 👋';

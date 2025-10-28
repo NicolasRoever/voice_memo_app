@@ -15,16 +15,22 @@ class ParticipantService {
   /// Registers a participant 
   Future<void> registerParticipant(String participantCode) async {
     final headers = {'Content-Type': 'application/json'};
+    print('In registerParticipant service');
+    print('participant_code: $participantCode'); 
+    
     final body = jsonEncode({
       'participant_code': participantCode,
       'research_arm': 'joymemos',
     });
-
+    
     final res = await _client.post(
       Uri.parse(_url),
       headers: headers,
       body: body,
     );
+
+    print('Registration response status: ${res.statusCode}');
+    print('Registration response body: ${res.body}');
 
     if (res.statusCode != 200) {
       // Surface a useful error for the caller (repository / view model).
