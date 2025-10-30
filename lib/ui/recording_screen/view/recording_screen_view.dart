@@ -104,7 +104,7 @@ class RecorderScreen extends ConsumerWidget {
                                 const SizedBox(height: 16),
                                 Text(
                                   viewModel.isRecording
-                                      ? 'Recording...'
+                                      ? 'Recording now...'
                                       : memo != null
                                           ? 'Recording saved!'
                                           : 'Ready to record',
