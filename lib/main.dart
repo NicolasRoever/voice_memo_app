@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routing/router.dart';
 import 'data/services/shared_preferences_service.dart';
+import 'ui/widgets/recording_overlay.dart';
 
 
 void main() async {
@@ -41,7 +42,10 @@ class MyApp extends ConsumerWidget {
 
     return CupertinoApp.router(
       routerConfig: router,
-      title: 'Voice Memo'
+      title: 'Voice Memo',
+      builder: (context, child) {
+      return RecordingOverlay(child: child ?? const SizedBox.shrink());
+    },
     );
   }
 }
