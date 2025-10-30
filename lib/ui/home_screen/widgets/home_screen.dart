@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../ui/home_screen/view_models/home_view_model.dart';
-import 'package:flutter/material.dart';
-import '../../../ui/core/theme/app_colors.dart';
-import '../../../providers/shared_providers.dart';
-import '../../../ui/core/theme/app_typography.dart';
 import 'package:intl/intl.dart';
+import '../../../ui/core/theme/app_colors.dart';
+import '../../../ui/core/theme/app_typography.dart';
+import '../../../providers/shared_providers.dart';
+import '../view_models/home_view_model.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -32,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Stack(
       children: [
-        // Background image
+        /// Background image
         Positioned.fill(
           child: LayoutBuilder(
             builder: (context, constraints) {
@@ -47,38 +47,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
 
-        // Page content
+        /// Page content
         CupertinoPageScaffold(
           backgroundColor: Colors.transparent,
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Custom App Bar (no blur)
+                /// Top bar
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                   child: Row(
                     children: [
                       const Spacer(),
                       CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () => context.push('/settings'),
-                        child: const Icon(CupertinoIcons.settings, color: AppColors.primary),
+                        child: const Icon(
+                          CupertinoIcons.settings,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
                 ),
 
-                // Greeting
+                /// Greeting
                 prefsAsync.when(
                   data: (prefs) {
                     final userName = prefs.userName;
                     final viewModel = ref.watch(homeViewModelProvider.notifier);
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                       child: Text(
                         viewModel.greeting(userName),
-                        style: AppTypography.mainHeading,
+                        style: AppTypography.mainHeading.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     );
                   },
@@ -89,33 +94,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   error: (err, _) => const SizedBox.shrink(),
                 ),
 
-                // Record Prompt
+                /// Record prompt
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.background_cards,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: CupertinoColors.systemGrey.withOpacity(0.15),
+                          color: AppColors.primary.withOpacity(0.08),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Make A JoyMemo',
-                          style: AppTypography.heading,
-                        ),
+                        Text('Make a JoyMemo', style: AppTypography.heading),
                         const SizedBox(height: 12),
                         Center(
                           child: CupertinoButton(
                             color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(12),
                             onPressed: () async {
                               await context.push('/record');
                               ref.read(homeViewModelProvider.notifier).loadMemos();
@@ -128,10 +131,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
 
-                // Gratitude History List
+                /// JoyMemo list
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
                     child: memosAsync.when(
                       data: (memos) {
                         if (memos.isEmpty) {
@@ -144,35 +147,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         }
 
                         return Container(
-                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: AppColors.background_cards,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: CupertinoColors.systemGrey4.withOpacity(0.5),
-                              width: 1,
-                            ),
                             boxShadow: [
                               BoxShadow(
-                                color: CupertinoColors.systemGrey.withOpacity(0.15),
+                                color: AppColors.primary.withOpacity(0.08),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),
                             ],
                           ),
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 12.0),
+                                padding: const EdgeInsets.only(bottom: 8.0),
                                 child: Text(
                                   'Your JoyMemo History',
-                                  style: AppTypography.heading,
+                                  style: AppTypography.heading.copyWith(
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                               ),
+                              const SizedBox(height: 8),
                               Expanded(
                                 child: ListView.builder(
-                                  padding: const EdgeInsets.only(bottom: 16),
                                   itemCount: memos.length,
                                   itemBuilder: (context, index) {
                                     final memo = memos[index];
@@ -187,49 +188,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       child: AnimatedContainer(
                                         duration: const Duration(milliseconds: 200),
                                         margin: const EdgeInsets.only(bottom: 12),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 14,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: isPlaying
-                                              ? CupertinoColors.systemGrey4.withOpacity(0.3)
-                                              : CupertinoColors.white,
-                                          borderRadius: BorderRadius.circular(8),
+                                              ? AppColors.accent.withOpacity(0.15)
+                                              : CupertinoColors.white.withOpacity(0.9),
+                                          borderRadius: BorderRadius.circular(12),
                                           border: Border.all(
                                             color: isPlaying
-                                                ? Theme.of(context).colorScheme.primary
-                                                : CupertinoColors.systemGrey5,
-                                            width: 1,
+                                                ? AppColors.accent
+                                                : CupertinoColors.systemGrey4.withOpacity(0.5),
+                                            width: 1.2,
                                           ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: CupertinoColors.systemGrey.withOpacity(0.1),
+                                              blurRadius: 6,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
                                         ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   'JoyMemo ${memo.id}',
                                                   style: AppTypography.heading.copyWith(
                                                     fontSize: 16,
                                                     color: isPlaying
-                                                        ? Theme.of(context).colorScheme.primary
-                                                        : CupertinoColors.systemGrey5,
+                                                        ? AppColors.primary
+                                                        : AppColors.primary,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 4),
                                                 Text(
-                                                  '${DateFormat.yMMMMd().format(memo.createdAt.toLocal())} '
-                                                  '${memo.createdAt.toLocal().hour}:${memo.createdAt.toLocal().minute.toString().padLeft(2, '0')}',
-                                                  style: AppTypography.subtitle,
+                                                  DateFormat.yMMMMd()
+                                                      .add_Hm()
+                                                      .format(memo.createdAt.toLocal()),
+                                                  style: AppTypography.subtitle.copyWith(
+                                                    color: CupertinoColors.systemGrey,
+                                                  ),
                                                 ),
                                               ],
                                             ),
                                             Icon(
                                               isPlaying
                                                   ? CupertinoIcons.stop_fill
-                                                  : CupertinoIcons.play_arrow,
+                                                  : CupertinoIcons.play_arrow_solid,
                                               color: isPlaying
                                                   ? AppColors.accent
-                                                  : Theme.of(context).colorScheme.primary,
+                                                  : AppColors.primary,
                                               size: 24,
                                             ),
                                           ],
@@ -243,8 +259,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         );
                       },
-                      loading: () => const Center(child: CupertinoActivityIndicator()),
-                      error: (error, _) => Center(child: Text('Error: $error')),
+                      loading: () =>
+                          const Center(child: CupertinoActivityIndicator()),
+                      error: (error, _) =>
+                          Center(child: Text('Error: $error')),
                     ),
                   ),
                 ),

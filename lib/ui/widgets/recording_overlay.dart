@@ -89,7 +89,7 @@ class _RecordingBanner extends StatelessWidget {
               liveRegion: true,
               label: 'Recording, elapsed $elapsedText',
               child: Text(
-                'Recording…  $elapsedText',
+                'Recording…',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
