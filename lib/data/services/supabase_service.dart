@@ -27,9 +27,9 @@ class SupabaseService {
 
   Future<void> insertVoiceMemo({
     required String userId,
-    required String userName
+    required String userName,
     required int timestamp,
-    required String fileUrl, // Here, I also want the name
+    required String fileUrl,
   }) async {
     await _client.from('voice_memos').insert({
       'user_id': userId,

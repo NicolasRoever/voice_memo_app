@@ -52,8 +52,8 @@ class AudioRecorderRepository {
       try {
         final file = File(filePath);
         final userId = _prefs.userId; 
-        final userName = _prefs.userName
-        
+        final userName = _prefs.userName;
+
         if (userId == null) {
           print('❌ No user ID found');
           return memo;
@@ -65,7 +65,7 @@ class AudioRecorderRepository {
           userId: userId,
           timestamp: timestamp,
           fileUrl: fileUrl, 
-          userName: userName, 
+          userName: userName ?? 'Unknown', 
         );
 
         print('🚀 Uploaded to Supabase: $fileUrl');
