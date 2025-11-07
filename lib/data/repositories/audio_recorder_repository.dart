@@ -51,19 +51,21 @@ class AudioRecorderRepository {
 
       try {
         final file = File(filePath);
-        final userId = _prefs.userId;
+        final userId = _prefs.userId; 
+        final userName = _prefs.userName
+        
         if (userId == null) {
           print('❌ No user ID found');
           return memo;
         }
         final timestamp = DateTime.now().millisecondsSinceEpoch;
-
         final fileUrl = await _supabaseService.uploadRecording(userId, file);
 
         await _supabaseService.insertVoiceMemo(
           userId: userId,
           timestamp: timestamp,
-          fileUrl: fileUrl,
+          fileUrl: fileUrl, 
+          userName: userName, 
         );
 
         print('🚀 Uploaded to Supabase: $fileUrl');
@@ -132,7 +134,6 @@ class AudioRecorderRepository {
 }
 
 
-// Inline provider
 // Inline provider
 final audioRecorderRepositoryProvider = Provider<AudioRecorderRepository>((ref) {
   final service = AudioRecorderService();

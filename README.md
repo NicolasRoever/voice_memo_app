@@ -70,3 +70,10 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+## I need to update: 
+
+1. When I insert the voice memo inside the supabase service, I also want to pass the name
+2. When I call the supabase service inside the provider (after recording is stopped), I also pass the name to the service
+3. 
