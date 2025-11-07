@@ -16,11 +16,25 @@ class UserRepository {
     // name is the email
     final participantCode = user.name;
 
-    // 1) remote registration
-    await _participantService.registerParticipant(participantCode);
 
-    // 2) persist locally (Supabase) only on success
+    // Register to Meta Trial Database
+     try {
+    await _participantService.registerParticipant(participantCode);
+    print('Participant registered successfully');
+  } catch (e, st) {
+    print('Failed to register participant: $e');
+    print(st);
+  }
+
+
+  //Register to supabase database
+  try {
     await _supabaseService.insertUser(user);
+    print('User inserted into Supabase');
+  } catch (e, st) {
+    print('Failed to insert user into Supabase: $e');
+    print(st);
+  }
   }
 
   /// If you still want a direct save without API registration:
